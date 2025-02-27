@@ -1,4 +1,10 @@
 import loginImage from "../Images/loginImage.jpg";
+import { userSchemaValidation } from "../Validations/UserValidations";
+import * as yup from "yup";
+
+import { useForm } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
   Col,
@@ -13,40 +19,65 @@ import logo from "../Images/logo-t.png";
 import { Link } from "react-router-dom";
 
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchemaValidation),
+  });
+  // Handle form submission
+
+  const onSubmit = (data) => {
+    console.log("Form Data", data); // You can handle the form submission here
+  };
   return (
     <div>
       <Container>
+        <h1>Register</h1>
         <img src={logo} />
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Row>
             <Col md={5}>
               Name <br></br>
-              <Input type="text"></Input>
+              <input type="text" name="name" {...register("name")}></input>
             </Col>
+            <p className="error">{errors.name?.message}</p>
           </Row>
 
           <Row>
             <Col md={5}>
               Email <br></br>
-              <Input type="text"></Input>
+              <input type="email" name="email" {...register("email")}></input>
             </Col>
+            <p className="error">{errors.email?.message}</p>
           </Row>
           <Row>
             <Col md={5}>
               Password<br></br>
-              <Input type="password"></Input>
+              <input
+                type="password"
+                name="password"
+                {...register("password")}
+              ></input>
             </Col>
+            <p className="error">{errors.password?.message}</p>
           </Row>
           <Row>
             <Col md={5}>
               Confirm Password<br></br>
-              <Input type="password"></Input>
+              <input
+                type="password"
+                name="ConfirmPassword"
+                {...register("confirmPassword")}
+              ></input>
             </Col>
+            <p className="error">{errors.confirmPassword?.message}</p>
           </Row>
 
           <Row>
             <Col md={3}>
-              <Button>Login</Button>
+              <Button>Register</Button>
             </Col>
           </Row>
 
