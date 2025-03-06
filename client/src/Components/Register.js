@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import logo from "../Images/logo-t.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const {
@@ -26,6 +27,8 @@ const Register = () => {
   } = useForm({
     resolver: yupResolver(userSchemaValidation),
   });
+
+  const userList = useSelector((state) => state.users.value);
   // Handle form submission
 
   const onSubmit = (data) => {
@@ -35,7 +38,7 @@ const Register = () => {
     <div>
       <Container>
         <h1>Register</h1>
-        <img src={logo} />
+
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row>
             <Col md={5}>
@@ -82,10 +85,19 @@ const Register = () => {
           </Row>
 
           <Row>
-            <Col md={3}>
-              <p className="smalltext">
-                No Account? <Link to="/register">Sign Up now.</Link>
-              </p>
+            <Col md={6}>
+              <h1> List of Users</h1>
+              <table className="table">
+                <tbody>
+                  {userList.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.password}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </Col>
           </Row>
         </Form>
