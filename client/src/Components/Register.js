@@ -17,7 +17,9 @@ import {
 } from "reactstrap";
 import logo from "../Images/logo-t.png";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, UseDispatch, useDispatch } from "react-redux";
+import { useState } from "react";
+import { addUser, deleteUser, updateUser } from "../Features/UserSlice";
 
 const Register = () => {
   const {
@@ -28,11 +30,29 @@ const Register = () => {
     resolver: yupResolver(userSchemaValidation),
   });
 
-  const userList = useSelector((state) => state.users.value);
-  // Handle form submission
+  const userList = useSelector((state) => state.users.value); // Handle form submission
+
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     console.log("Form Data", data); // You can handle the form submission here
+    alert("Validation all good.");
+    try {
+      const userData = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+
+      dispatch(addUser(userData));
+    } catch {
+      console.log("error");
+    }
   };
   return (
     <div>
@@ -43,7 +63,14 @@ const Register = () => {
           <Row>
             <Col md={5}>
               Name <br></br>
-              <input type="text" name="name" {...register("name")}></input>
+              <input
+                type="text"
+                name="name"
+                {...register("name", {
+                  onChange: (e) => setname(e.target.value),
+                })}
+              ></input>
+              {name}
             </Col>
             <p className="error">{errors.name?.message}</p>
           </Row>
@@ -51,7 +78,14 @@ const Register = () => {
           <Row>
             <Col md={5}>
               Email <br></br>
-              <input type="email" name="email" {...register("email")}></input>
+              <input
+                type="email"
+                name="email"
+                {...register("email", {
+                  onChange: (e) => setemail(e.target.value),
+                })}
+              ></input>
+              {email}
             </Col>
             <p className="error">{errors.email?.message}</p>
           </Row>
@@ -61,7 +95,9 @@ const Register = () => {
               <input
                 type="password"
                 name="password"
-                {...register("password")}
+                {...register("password", {
+                  onChange: (e) => setpassword(e.target.value),
+                })}
               ></input>
             </Col>
             <p className="error">{errors.password?.message}</p>
@@ -72,7 +108,9 @@ const Register = () => {
               <input
                 type="password"
                 name="ConfirmPassword"
-                {...register("confirmPassword")}
+                {...register("confirmPassword", {
+                  onChange: (e) => setconfirmPassword(e.target.value),
+                })}
               ></input>
             </Col>
             <p className="error">{errors.confirmPassword?.message}</p>
@@ -94,6 +132,12 @@ const Register = () => {
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.password}</td>
+                      <td>
+                        <button className="btn btn-primary">Delete</button>
+                      </td>
+                      <td>
+                        <button className="btn btn-primary">Update</button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
