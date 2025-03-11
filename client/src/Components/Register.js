@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 import logo from "../Images/logo-t.png";
 import { Link } from "react-router-dom";
-import { useSelector, UseDispatch, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { addUser, deleteUser, updateUser } from "../Features/UserSlice";
 
@@ -38,6 +38,9 @@ const Register = () => {
   const [confirmPassword, setconfirmPassword] = useState("");
 
   const dispatch = useDispatch();
+  const handleDelete = (email) => {
+    dispatch(deleteUser(email));
+  };
 
   const onSubmit = (data) => {
     console.log("Form Data", data); // You can handle the form submission here
@@ -133,7 +136,12 @@ const Register = () => {
                       <td>{user.email}</td>
                       <td>{user.password}</td>
                       <td>
-                        <button className="btn btn-primary">Delete</button>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handleDelete(user.email)}
+                        >
+                          Delete
+                        </button>
                       </td>
                       <td>
                         <button className="btn btn-primary">Update</button>
