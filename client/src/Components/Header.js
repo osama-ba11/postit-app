@@ -19,7 +19,7 @@ const Header = () => {
           </NavItem>
 
           <NavItem>
-            <NavLink href="/register">register</NavLink>
+            <NavLink href="/register">Register</NavLink>
           </NavItem>
         </Nav>
       </Navbar>
