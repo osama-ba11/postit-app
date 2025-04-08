@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import express from "express";
 import UserModel from "./Models/UserModel.js";
+import bcrypt from "bcrypt";
 
 const app = express();
 app.use(express.json());
@@ -11,9 +12,28 @@ app.use(cors());
 const connectString =
   "mongodb+srv://admin:admin@postitcluster.z9nukur.mongodb.net/postITDb?retryWrites=true&w=majority&appName=PostITCluster";
 
-mongoose.connect(connectString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect(connectString);
+
+//API routes
+app.post("/registerUser", async (req, res) => {
+  try {
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
+    bcrypt.hash(password, 10);
+
+    const user = new UserModel({
+      name: name,
+      email: email,
+      password: hashedpassword,
+    });
+
+    await user.save();
+
+    res.send({ user: user, msg: "Added." });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.listen(3001, () => {
