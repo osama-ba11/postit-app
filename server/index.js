@@ -10,17 +10,17 @@ app.use(cors());
 
 //Database connection
 const connectString =
-  "mongodb+srv://admin:admin@postitcluster.z9nukur.mongodb.net/postITDb?retryWrites=true&w=majority&appName=PostITCluster";
+  "mongodb+srv://admin:admin12345@postitcluster.vcbpdnh.mongodb.net/postITDb?retryWrites=true&w=majority&appName=PostITCluster";
 
 mongoose.connect(connectString);
+//API Routes
 
-//API routes
 app.post("/registerUser", async (req, res) => {
   try {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
-    bcrypt.hash(password, 10);
+    const hashedpassword = await bcrypt.hash(password, 10);
 
     const user = new UserModel({
       name: name,
@@ -29,13 +29,16 @@ app.post("/registerUser", async (req, res) => {
     });
 
     await user.save();
-
     res.send({ user: user, msg: "Added." });
   } catch (error) {
     console.log(error);
   }
 });
 
+app.post("/login", async (req, res) => {});
+
+app.put("/updateProfile", async (req, res) => {});
+
 app.listen(3001, () => {
-  console.log("You are connected , thank you");
+  console.log("You are connected thank you");
 });
