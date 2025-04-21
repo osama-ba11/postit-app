@@ -18,9 +18,7 @@ import { userSchemaValidation } from "../Validations/UserValidations";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Features/UserSlice";
-
 import { useEffect } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -29,12 +27,9 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //Retrieve the current value of the state from the store, name of state is users with a property user
 
   const user = useSelector((state) => state.users.user);
-
   const isSuccess = useSelector((state) => state.users.isSuccess);
-
   const isError = useSelector((state) => state.users.isError);
 
   const {
@@ -45,10 +40,12 @@ const Login = () => {
 
   var x = 1;
   // Handle form submission
-
   const onSubmit = (data) => {
     console.log("Form Data", data); // You can handle the form submission here
   };
+
+  //function that will be invoked when the user clicks the login button
+
   const handleLogin = () => {
     const userData = {
       email,
@@ -56,6 +53,7 @@ const Login = () => {
     };
     dispatch(login(userData)); //dispatch a login action from the user slice.
   };
+
   useEffect(() => {
     if (isError) {
       navigate("/login");
@@ -67,6 +65,7 @@ const Login = () => {
       navigate("/login");
     }
   }, [user, isError, isSuccess]);
+
   return (
     <div>
       <Container>
@@ -93,7 +92,7 @@ const Login = () => {
                 onChange={(e) => setpassword(e.target.value)}
               ></input>
             </Col>
-            <p className="error">{errors.password?.message}</p>
+            <p className="error">{errors.email?.message}</p>
           </Row>
 
           <Row>
