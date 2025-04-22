@@ -20,18 +20,34 @@ const SharePosts = () => {
 
   const email = useSelector((state) => state.users.user.email);
 
+  const handlePost = async () => {
+    // Validate that postMsg is not empty
+    if (!postMsg.trim()) {
+      alert("Post message is required."); // Display an alert or set an error state
+      return; // Exit the function early if validation fails
+    }
+    const postData = {
+      postMsg: postMsg,
+      email: email,
+    };
+
+    dispatch(savePost(postData)); // Dispatch the savePost thunk from the Posts Slice.
+    setpostMsg(""); //clear the text area after posting
+  };
   return (
     <div>
       <h1>SharePosts</h1>
       <Row>
         <Col>
-          <Input
+          <input
             id="share"
             name="share"
             placeholder="Share your thoughts..."
             type="textarea"
-          ></Input>
-          <Button>PostIT</Button>
+            value={postMsg}
+            onChange={(e) => setpostMsg(e.target.value)}
+          ></input>
+          <Button onClick={() => handlePost()}>PostIT</Button>
         </Col>
       </Row>
     </div>
