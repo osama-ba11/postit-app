@@ -39,14 +39,14 @@ const SharePosts = () => {
       <h1>SharePosts</h1>
       <Row>
         <Col>
-          <input
+          <Input
             id="share"
             name="share"
             placeholder="Share your thoughts..."
             type="textarea"
             value={postMsg}
             onChange={(e) => setpostMsg(e.target.value)}
-          ></input>
+          ></Input>
           <Button onClick={() => handlePost()}>PostIT</Button>
         </Col>
       </Row>
