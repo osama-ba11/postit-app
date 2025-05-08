@@ -1,7 +1,3 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { savePost } from "../Features/PostSlice";
 import {
   Button,
   Col,
@@ -11,13 +7,16 @@ import {
   FormGroup,
   Input,
 } from "reactstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { savePost } from "../Features/PostSlice";
 
 const SharePosts = () => {
   const [postMsg, setpostMsg] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const email = useSelector((state) => state.users.user.email);
 
   const handlePost = async () => {
@@ -30,10 +29,10 @@ const SharePosts = () => {
       postMsg: postMsg,
       email: email,
     };
-
     dispatch(savePost(postData)); // Dispatch the savePost thunk from the Posts Slice.
     setpostMsg(""); //clear the text area after posting
   };
+
   return (
     <div>
       <h1>SharePosts</h1>
